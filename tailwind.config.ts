@@ -52,6 +52,11 @@ export default {
 					DEFAULT: 'hsl(var(--card))',
 					foreground: 'hsl(var(--card-foreground))'
 				},
+				// Fee calculator performance colors
+				excellent: 'hsl(var(--excellent))',
+				good: 'hsl(var(--good))',
+				average: 'hsl(var(--average))',
+				'needs-improvement': 'hsl(var(--needs-improvement))',
 				sidebar: {
 					DEFAULT: 'hsl(var(--sidebar-background))',
 					foreground: 'hsl(var(--sidebar-foreground))',
