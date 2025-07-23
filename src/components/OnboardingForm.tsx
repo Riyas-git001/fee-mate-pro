@@ -75,8 +75,20 @@ export const OnboardingForm = ({ onSubmit }: OnboardingFormProps) => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center p-4 bg-gradient-to-br from-primary/10 via-background to-accent/10">
-      <Card className="w-full max-w-md shadow-xl border-0 bg-card/80 backdrop-blur-sm">
+    <div className="min-h-screen relative overflow-hidden flex items-center justify-center p-4 bg-gradient-to-br from-primary/10 via-background to-accent/10">
+      {/* Background Images */}
+      <div className="absolute inset-0 z-0">
+        <div 
+          className="absolute top-10 right-10 w-32 h-32 opacity-10 bg-contain bg-no-repeat"
+          style={{ backgroundImage: "url('/lovable-uploads/d78c4b7b-23b9-40d4-9e3d-666386fe827e.png')" }}
+        />
+        <div 
+          className="absolute bottom-0 left-0 w-full h-48 opacity-20 bg-contain bg-no-repeat bg-center"
+          style={{ backgroundImage: "url('/lovable-uploads/9dfd99c1-825d-4125-bfad-91f59bf80be6.png')" }}
+        />
+      </div>
+      
+      <Card className="w-full max-w-md shadow-xl border-0 bg-card/90 backdrop-blur-sm relative z-10">
         <CardHeader className="text-center space-y-4">
           <div className="mx-auto w-16 h-16 bg-gradient-to-r from-primary to-accent rounded-full flex items-center justify-center">
             <GraduationCap className="w-8 h-8 text-primary-foreground" />

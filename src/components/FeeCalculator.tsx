@@ -166,8 +166,24 @@ export const FeeCalculator = ({ studentData, onBack }: FeeCalculatorProps) => {
   };
 
   return (
-    <div className="min-h-screen p-4 bg-gradient-to-br from-primary/10 via-background to-accent/10">
-      <div className="max-w-2xl mx-auto space-y-6">
+    <div className="min-h-screen relative overflow-hidden p-4 bg-gradient-to-br from-primary/10 via-background to-accent/10">
+      {/* Background Images */}
+      <div className="absolute inset-0 z-0">
+        <div 
+          className="absolute top-20 left-10 w-24 h-24 opacity-15 bg-contain bg-no-repeat rotate-12"
+          style={{ backgroundImage: "url('/lovable-uploads/d78c4b7b-23b9-40d4-9e3d-666386fe827e.png')" }}
+        />
+        <div 
+          className="absolute top-40 right-10 w-28 h-28 opacity-10 bg-contain bg-no-repeat -rotate-12"
+          style={{ backgroundImage: "url('/lovable-uploads/d78c4b7b-23b9-40d4-9e3d-666386fe827e.png')" }}
+        />
+        <div 
+          className="absolute bottom-0 right-0 w-96 h-32 opacity-25 bg-contain bg-no-repeat bg-right"
+          style={{ backgroundImage: "url('/lovable-uploads/9dfd99c1-825d-4125-bfad-91f59bf80be6.png')" }}
+        />
+      </div>
+      
+      <div className="max-w-2xl mx-auto space-y-6 relative z-10">
         {/* Header */}
         <div className="flex items-center gap-4">
           <Button 
@@ -189,7 +205,7 @@ export const FeeCalculator = ({ studentData, onBack }: FeeCalculatorProps) => {
         </div>
 
         {/* Calculator Card */}
-        <Card className="shadow-xl border-0 bg-card/80 backdrop-blur-sm">
+        <Card className="shadow-xl border-0 bg-card/90 backdrop-blur-sm">
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
               <Calculator className="w-5 h-5 text-primary" />
@@ -273,7 +289,7 @@ export const FeeCalculator = ({ studentData, onBack }: FeeCalculatorProps) => {
 
         {/* Result Card */}
         {result && (
-          <Card className="shadow-xl border-0 bg-card/80 backdrop-blur-sm animate-in slide-in-from-bottom-4 duration-500">
+          <Card className="shadow-xl border-0 bg-card/90 backdrop-blur-sm animate-in slide-in-from-bottom-4 duration-500">
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
                 <IndianRupee className="w-5 h-5 text-primary" />
