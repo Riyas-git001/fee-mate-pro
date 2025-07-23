@@ -3,15 +3,16 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
-import { GraduationCap, User, Phone } from "lucide-react";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { GraduationCap, User, Phone, Building2 } from "lucide-react";
 
 interface OnboardingFormProps {
-  onSubmit: (data: { name: string; phone: string }) => void;
+  onSubmit: (data: { name: string; phone: string; department: string }) => void;
 }
 
 export const OnboardingForm = ({ onSubmit }: OnboardingFormProps) => {
-  const [formData, setFormData] = useState({ name: "", phone: "" });
-  const [errors, setErrors] = useState<{ name?: string; phone?: string }>({});
+  const [formData, setFormData] = useState({ name: "", phone: "", department: "" });
+  const [errors, setErrors] = useState<{ name?: string; phone?: string; department?: string }>({});
   const [isLoading, setIsLoading] = useState(false);
 
   // Real-time validation
@@ -27,7 +28,12 @@ export const OnboardingForm = ({ onSubmit }: OnboardingFormProps) => {
     return undefined;
   };
 
-  const handleInputChange = (field: 'name' | 'phone', value: string) => {
+  const validateDepartment = (department: string): string | undefined => {
+    if (!department) return "Department is required";
+    return undefined;
+  };
+
+  const handleInputChange = (field: 'name' | 'phone' | 'department', value: string) => {
     setFormData(prev => ({ ...prev, [field]: value }));
     
     // Real-time validation
@@ -40,6 +46,10 @@ export const OnboardingForm = ({ onSubmit }: OnboardingFormProps) => {
       const nameError = validateName(value);
       if (nameError) newErrors.name = nameError;
       else delete newErrors.name;
+    } else if (field === 'department') {
+      const departmentError = validateDepartment(value);
+      if (departmentError) newErrors.department = departmentError;
+      else delete newErrors.department;
     }
     setErrors(newErrors);
   };
@@ -49,9 +59,10 @@ export const OnboardingForm = ({ onSubmit }: OnboardingFormProps) => {
     
     const nameError = validateName(formData.name);
     const phoneError = validatePhone(formData.phone);
+    const departmentError = validateDepartment(formData.department);
     
-    if (nameError || phoneError) {
-      setErrors({ name: nameError, phone: phoneError });
+    if (nameError || phoneError || departmentError) {
+      setErrors({ name: nameError, phone: phoneError, department: departmentError });
       return;
     }
 
@@ -124,10 +135,41 @@ export const OnboardingForm = ({ onSubmit }: OnboardingFormProps) => {
               )}
             </div>
 
+            <div className="space-y-2">
+              <Label htmlFor="department" className="text-sm font-medium flex items-center gap-2">
+                <Building2 className="w-4 h-4" />
+                Department
+              </Label>
+              <Select 
+                value={formData.department} 
+                onValueChange={(value) => handleInputChange('department', value)}
+              >
+                <SelectTrigger 
+                  className={`transition-all duration-200 ${errors.department ? 'border-destructive focus:ring-destructive' : 'focus:ring-primary'}`}
+                  aria-invalid={!!errors.department}
+                  aria-describedby={errors.department ? "department-error" : undefined}
+                >
+                  <SelectValue placeholder="Select your department" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="CSE">Computer Science & Engineering</SelectItem>
+                  <SelectItem value="Mechanical">Mechanical Engineering</SelectItem>
+                  <SelectItem value="EEE">Electrical & Electronics Engineering</SelectItem>
+                  <SelectItem value="ECE">Electronics & Communication Engineering</SelectItem>
+                  <SelectItem value="Civil">Civil Engineering</SelectItem>
+                </SelectContent>
+              </Select>
+              {errors.department && (
+                <p id="department-error" className="text-sm text-destructive animate-in slide-in-from-left-2 duration-200">
+                  {errors.department}
+                </p>
+              )}
+            </div>
+
             <Button 
               type="submit" 
               className="w-full bg-gradient-to-r from-primary to-accent hover:from-primary/90 hover:to-accent/90 text-primary-foreground font-semibold py-6 transition-all duration-200 shadow-lg hover:shadow-xl"
-              disabled={isLoading || !!errors.name || !!errors.phone || !formData.name || !formData.phone}
+              disabled={isLoading || !!errors.name || !!errors.phone || !!errors.department || !formData.name || !formData.phone || !formData.department}
             >
               {isLoading ? "Validating..." : "Continue to Fee Calculator"}
             </Button>

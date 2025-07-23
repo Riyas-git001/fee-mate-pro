@@ -57,6 +57,12 @@ export default {
 				good: 'hsl(var(--good))',
 				average: 'hsl(var(--average))',
 				'needs-improvement': 'hsl(var(--needs-improvement))',
+				// Department colors
+				'dept-cse': 'hsl(var(--dept-cse))',
+				'dept-mechanical': 'hsl(var(--dept-mechanical))',
+				'dept-eee': 'hsl(var(--dept-eee))',
+				'dept-ece': 'hsl(var(--dept-ece))',
+				'dept-civil': 'hsl(var(--dept-civil))',
 				sidebar: {
 					DEFAULT: 'hsl(var(--sidebar-background))',
 					foreground: 'hsl(var(--sidebar-foreground))',

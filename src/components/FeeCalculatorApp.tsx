@@ -5,6 +5,7 @@ import { FeeCalculator } from "./FeeCalculator";
 interface StudentData {
   name: string;
   phone: string;
+  department: string;
 }
 
 export const FeeCalculatorApp = () => {

@@ -14,13 +14,15 @@ import {
   Calculator,
   ArrowLeft,
   Percent,
-  IndianRupee
+  IndianRupee,
+  Building2
 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 
 interface StudentData {
   name: string;
   phone: string;
+  department: string;
 }
 
 interface FeeCalculatorProps {
@@ -132,6 +134,18 @@ export const FeeCalculator = ({ studentData, onBack }: FeeCalculatorProps) => {
     }, 1000);
   };
 
+  // Get department color
+  const getDepartmentColor = (department: string) => {
+    switch (department) {
+      case 'CSE': return 'bg-blue-600 text-white';
+      case 'Mechanical': return 'bg-gray-600 text-white';
+      case 'EEE': return 'bg-yellow-600 text-white';
+      case 'ECE': return 'bg-green-600 text-white';
+      case 'Civil': return 'bg-orange-600 text-white';
+      default: return 'bg-muted text-muted-foreground';
+    }
+  };
+
   // Get performance color
   const getPerformanceColor = (level: string) => {
     switch (level) {
@@ -164,9 +178,13 @@ export const FeeCalculator = ({ studentData, onBack }: FeeCalculatorProps) => {
           >
             <ArrowLeft className="w-4 h-4" />
           </Button>
-          <div>
+          <div className="flex-1">
             <h1 className="text-2xl font-bold">Fee Calculator</h1>
             <p className="text-muted-foreground">Welcome, {studentData.name}</p>
+            <Badge className={`mt-2 ${getDepartmentColor(studentData.department)}`}>
+              <Building2 className="w-3 h-3 mr-1" />
+              {studentData.department}
+            </Badge>
           </div>
         </div>
 
@@ -265,11 +283,17 @@ export const FeeCalculator = ({ studentData, onBack }: FeeCalculatorProps) => {
             
             <CardContent className="space-y-6">
               {/* Performance Badge */}
-              <div className="flex items-center justify-center gap-3">
-                {result.icon}
-                <Badge className={`px-4 py-2 text-sm font-semibold ${getPerformanceColor(result.performanceLevel)}`}>
-                  {result.percentage}% - {result.performanceLevel.replace('-', ' ').toUpperCase()}
+              <div className="flex flex-col items-center gap-3 sm:flex-row sm:justify-center">
+                <Badge className={`px-3 py-1 text-xs font-medium ${getDepartmentColor(studentData.department)}`}>
+                  <Building2 className="w-3 h-3 mr-1" />
+                  {studentData.department}
                 </Badge>
+                <div className="flex items-center gap-2">
+                  {result.icon}
+                  <Badge className={`px-4 py-2 text-sm font-semibold ${getPerformanceColor(result.performanceLevel)}`}>
+                    {result.percentage}% - {result.performanceLevel.replace('-', ' ').toUpperCase()}
+                  </Badge>
+                </div>
               </div>
 
               {/* Motivational Message */}
