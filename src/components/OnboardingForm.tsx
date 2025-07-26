@@ -68,14 +68,30 @@ export const OnboardingForm = ({ onSubmit }: OnboardingFormProps) => {
     }
 
     setIsLoading(true);
-    // Simulate API call for phone uniqueness check
-    setTimeout(() => {
-      setIsLoading(false);
-      onSubmit({
-        ...formData,
-        phone: `${countryCode}${formData.phone}`
+    fetch('https://script.google.com/macros/s/AKfycbxvyqJ78oah9zoxLxVKZiRTEOxNVyEEmvN-PzVaReSXVreIww2nqLcBWZ31gIs-QSIU/exec', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded'
+      },
+      body: new URLSearchParams({
+        name: formData.name,
+        phone: `${countryCode}${formData.phone}`,
+        department: formData.department
+      })
+    })
+      .then(response => response.text())
+      .then(result => {
+        setIsLoading(false);
+        // Optionally, handle the result (show a message, etc.)
+        onSubmit({
+          ...formData,
+          phone: `${countryCode}${formData.phone}`
+        });
+      })
+      .catch(error => {
+        setIsLoading(false);
+        alert('Error submitting form: ' + error);
       });
-    }, 1000);
   };
 
   return (
