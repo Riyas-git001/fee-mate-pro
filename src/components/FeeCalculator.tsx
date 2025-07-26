@@ -41,13 +41,14 @@ interface FeeResult {
 }
 
 export const FeeCalculator = ({ studentData, onBack }: FeeCalculatorProps) => {
-  const [percentage, setPercentage] = useState<number>(75);
-  const [manualInput, setManualInput] = useState<string>("75");
+  const [physics, setPhysics] = useState<string>("");
+  const [maths, setMaths] = useState<string>("");
+  const [chemistry, setChemistry] = useState<string>("");
   const [result, setResult] = useState<FeeResult | null>(null);
   const [isCalculating, setIsCalculating] = useState(false);
   const { toast } = useToast();
 
-  // Calculate fee based on percentage
+  // Calculate fee based on average percentage
   const calculateFee = (marks: number): FeeResult => {
     let baseFee: number;
     let performanceLevel: 'excellent' | 'good' | 'average' | 'needs-improvement';
@@ -91,45 +92,29 @@ export const FeeCalculator = ({ studentData, onBack }: FeeCalculatorProps) => {
     };
   };
 
-  // Handle slider change
-  const handleSliderChange = (value: number[]) => {
-    const newValue = value[0];
-    setPercentage(newValue);
-    setManualInput(newValue.toString());
-  };
-
-  // Handle manual input change
-  const handleManualInputChange = (value: string) => {
-    setManualInput(value);
-    const numValue = parseInt(value);
-    if (!isNaN(numValue) && numValue >= 0 && numValue <= 100) {
-      setPercentage(numValue);
-    }
-  };
-
   // Submit calculation
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (percentage < 0 || percentage > 100) {
+    const p = parseFloat(physics);
+    const m = parseFloat(maths);
+    const c = parseFloat(chemistry);
+    if ([p, m, c].some((v) => isNaN(v) || v < 0 || v > 100)) {
       toast({
-        title: "Invalid Percentage",
-        description: "Please enter a percentage between 0 and 100.",
+        title: "Invalid Input",
+        description: "Please enter valid percentages (0-100) for all subjects.",
         variant: "destructive",
       });
       return;
     }
-
+    const avg = Math.round((p + m + c) / 3);
     setIsCalculating(true);
-    
-    // Simulate API call
     setTimeout(() => {
-      const calculatedResult = calculateFee(percentage);
+      const calculatedResult = calculateFee(avg);
       setResult(calculatedResult);
       setIsCalculating(false);
-      
       toast({
         title: "Fee Calculated!",
-        description: `Your fee for ${percentage}% marks: ₹${calculatedResult.totalFee.toLocaleString()}`,
+        description: `Your fee for average ${avg}% marks: ₹${calculatedResult.totalFee.toLocaleString()}`,
       });
     }, 1000);
   };
@@ -212,72 +197,54 @@ export const FeeCalculator = ({ studentData, onBack }: FeeCalculatorProps) => {
               Enter Your Marks
             </CardTitle>
             <CardDescription>
-              Adjust the slider or enter your percentage manually
+              Enter the percentage for each subject below
             </CardDescription>
           </CardHeader>
-          
           <CardContent>
             <form onSubmit={handleSubmit} className="space-y-6">
-              {/* Percentage Input */}
               <div className="space-y-4">
                 <Label className="text-base font-medium flex items-center gap-2">
                   <Percent className="w-4 h-4" />
-                  Your Percentage: {percentage}%
+                  Physics Percentage
                 </Label>
-                
-                {/* Slider */}
-                <div className="px-2">
-                  <Slider
-                    value={[percentage]}
-                    onValueChange={handleSliderChange}
-                    max={100}
-                    min={0}
-                    step={1}
-                    className="w-full"
-                  />
-                  <div className="flex justify-between text-xs text-muted-foreground mt-1">
-                    <span>0%</span>
-                    <span>50%</span>
-                    <span>100%</span>
-                  </div>
-                </div>
-
-                {/* Manual Input */}
-                <div className="flex items-center gap-2">
-                  <Input
-                    type="number"
-                    min="0"
-                    max="100"
-                    value={manualInput}
-                    onChange={(e) => handleManualInputChange(e.target.value)}
-                    className="w-24 text-center"
-                    placeholder="0-100"
-                  />
-                  <span className="text-muted-foreground">%</span>
-                </div>
-
-                {/* Progress Bar */}
-                <div className="space-y-2">
-                  <div className="flex justify-between text-sm">
-                    <span>Performance Level</span>
-                    <span className="font-medium">
-                      {percentage >= 90 ? 'Excellent' : 
-                       percentage >= 75 ? 'Good' : 
-                       percentage >= 50 ? 'Average' : 'Needs Improvement'}
-                    </span>
-                  </div>
-                  <div className="relative">
-                    <Progress value={percentage} className="h-3" />
-                    <div 
-                      className={`absolute top-0 left-0 h-3 rounded-full transition-all duration-300 ${getProgressColor(percentage)}`}
-                      style={{ width: `${percentage}%` }}
-                    />
-                  </div>
-                </div>
+                <Input
+                  type="number"
+                  min="0"
+                  max="100"
+                  value={physics}
+                  onChange={(e) => setPhysics(e.target.value)}
+                  className="w-24 text-center"
+                  placeholder="0-100"
+                />
+                <Label className="text-base font-medium flex items-center gap-2">
+                  <Percent className="w-4 h-4" />
+                  Maths Percentage
+                </Label>
+                <Input
+                  type="number"
+                  min="0"
+                  max="100"
+                  value={maths}
+                  onChange={(e) => setMaths(e.target.value)}
+                  className="w-24 text-center"
+                  placeholder="0-100"
+                />
+                <Label className="text-base font-medium flex items-center gap-2">
+                  <Percent className="w-4 h-4" />
+                  Chemistry Percentage
+                </Label>
+                <Input
+                  type="number"
+                  min="0"
+                  max="100"
+                  value={chemistry}
+                  onChange={(e) => setChemistry(e.target.value)}
+                  className="w-24 text-center"
+                  placeholder="0-100"
+                />
               </div>
-
-              <Button 
-                type="submit" 
+              <Button
+                type="submit"
                 className="w-full bg-gradient-to-r from-primary to-accent hover:from-primary/90 hover:to-accent/90 text-primary-foreground font-semibold py-6 transition-all duration-200 shadow-lg hover:shadow-xl"
                 disabled={isCalculating}
               >

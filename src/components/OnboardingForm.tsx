@@ -12,6 +12,7 @@ interface OnboardingFormProps {
 
 export const OnboardingForm = ({ onSubmit }: OnboardingFormProps) => {
   const [formData, setFormData] = useState({ name: "", phone: "", department: "" });
+  const [countryCode, setCountryCode] = useState("+91");
   const [errors, setErrors] = useState<{ name?: string; phone?: string; department?: string }>({});
   const [isLoading, setIsLoading] = useState(false);
 
@@ -70,7 +71,10 @@ export const OnboardingForm = ({ onSubmit }: OnboardingFormProps) => {
     // Simulate API call for phone uniqueness check
     setTimeout(() => {
       setIsLoading(false);
-      onSubmit(formData);
+      onSubmit({
+        ...formData,
+        phone: `${countryCode}${formData.phone}`
+      });
     }, 1000);
   };
 
@@ -90,12 +94,33 @@ export const OnboardingForm = ({ onSubmit }: OnboardingFormProps) => {
       
       <Card className="w-full max-w-md shadow-xl border-0 bg-card/90 backdrop-blur-sm relative z-10">
         <CardHeader className="text-center space-y-4">
-          <div className="mx-auto w-16 h-16 bg-gradient-to-r from-primary to-accent rounded-full flex items-center justify-center">
-            <GraduationCap className="w-8 h-8 text-primary-foreground" />
+          <div className="mx-auto w-20 h-20 bg-white rounded-full flex items-center justify-center shadow-lg">
+            <img 
+              src="/lovable-uploads/thejus-logo.png" 
+              alt="Thejus Engineering College Logo" 
+              className="w-16 h-16 object-contain"
+              onError={(e) => {
+                const target = e.target as HTMLImageElement;
+                target.style.display = 'none';
+                const fallback = target.nextElementSibling as HTMLElement;
+                if (fallback) fallback.style.display = 'flex';
+              }}
+            />
+            <div 
+              className="w-16 h-16 hidden items-center justify-center bg-gradient-to-r from-blue-600 to-red-600 rounded-full text-white font-bold text-xl"
+              style={{ display: 'none' }}
+            >
+              TEC
+            </div>
           </div>
-          <CardTitle className="text-2xl font-bold bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
-            College Fee Calculator
-          </CardTitle>
+          <div className="space-y-2">
+            <CardTitle className="text-2xl font-bold text-primary">
+              THEJUS ENGINEERING COLLEGE
+            </CardTitle>
+            <CardTitle className="text-lg font-semibold bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
+              Fee Calculator Portal
+            </CardTitle>
+          </div>
           <CardDescription className="text-base">
             Get instant fee calculation based on your academic performance
           </CardDescription>
@@ -130,16 +155,48 @@ export const OnboardingForm = ({ onSubmit }: OnboardingFormProps) => {
                 <Phone className="w-4 h-4" />
                 Phone Number
               </Label>
-              <Input
-                id="phone"
-                type="tel"
-                placeholder="10-digit phone number"
-                value={formData.phone}
-                onChange={(e) => handleInputChange('phone', e.target.value.replace(/\D/g, '').slice(0, 10))}
-                className={`transition-all duration-200 ${errors.phone ? 'border-destructive focus:ring-destructive' : 'focus:ring-primary'}`}
-                aria-invalid={!!errors.phone}
-                aria-describedby={errors.phone ? "phone-error" : undefined}
-              />
+              <div className="flex gap-2">
+                <Select value={countryCode} onValueChange={setCountryCode}>
+                  <SelectTrigger className="w-24">
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="+91">🇮🇳 +91</SelectItem>
+                    <SelectItem value="+1">🇺🇸 +1</SelectItem>
+                    <SelectItem value="+44">🇬🇧 +44</SelectItem>
+                    <SelectItem value="+61">🇦🇺 +61</SelectItem>
+                    <SelectItem value="+86">🇨🇳 +86</SelectItem>
+                    <SelectItem value="+81">🇯🇵 +81</SelectItem>
+                    <SelectItem value="+49">🇩🇪 +49</SelectItem>
+                    <SelectItem value="+33">🇫🇷 +33</SelectItem>
+                    <SelectItem value="+39">🇮🇹 +39</SelectItem>
+                    <SelectItem value="+34">🇪🇸 +34</SelectItem>
+                    <SelectItem value="+7">🇷🇺 +7</SelectItem>
+                    <SelectItem value="+55">🇧🇷 +55</SelectItem>
+                    <SelectItem value="+52">🇲🇽 +52</SelectItem>
+                    <SelectItem value="+27">🇿🇦 +27</SelectItem>
+                    <SelectItem value="+971">🇦🇪 +971</SelectItem>
+                    <SelectItem value="+966">🇸🇦 +966</SelectItem>
+                    <SelectItem value="+65">🇸🇬 +65</SelectItem>
+                    <SelectItem value="+60">🇲🇾 +60</SelectItem>
+                    <SelectItem value="+66">🇹🇭 +66</SelectItem>
+                    <SelectItem value="+84">🇻🇳 +84</SelectItem>
+                  </SelectContent>
+                </Select>
+                <Input
+                  id="phone"
+                  type="tel"
+                  placeholder="10-digit phone number"
+                  value={formData.phone}
+                  onChange={(e) => handleInputChange('phone', e.target.value.replace(/\D/g, '').slice(0, 10))}
+                  maxLength={10}
+                  inputMode="numeric"
+                  pattern="[0-9]{10}"
+                  className={`flex-1 transition-all duration-200 ${errors.phone ? 'border-destructive focus:ring-destructive' : 'focus:ring-primary'}`}
+                  aria-invalid={!!errors.phone}
+                  aria-describedby={errors.phone ? "phone-error" : undefined}
+                />
+              </div>
               {errors.phone && (
                 <p id="phone-error" className="text-sm text-destructive animate-in slide-in-from-left-2 duration-200">
                   {errors.phone}
