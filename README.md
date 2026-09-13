@@ -1,73 +1,83 @@
-# Welcome to your Lovable project
+# Fee Mate Pro
 
-## Project info
+A tool to analyze and compare college fee structures across different courses based on their requirements and academic marks.
 
-**URL**: https://lovable.dev/projects/0a9a2e9e-9d0c-4b43-b403-92a0eee70504
+## What is Fee Mate Pro?
 
-## How can I edit this code?
+Fee Mate Pro helps students and administrators understand the fee breakdown for different courses at your college. See how fees vary by course, check mark requirements, and compare costs against course value.
 
-There are several ways of editing your application.
+## Getting Started
 
-**Use Lovable**
+### What You Need
+- Node.js & npm ([get it here](https://github.com/nvm-sh/nvm#installing-and-updating))
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/0a9a2e9e-9d0c-4b43-b403-92a0eee70504) and start prompting.
-
-Changes made via Lovable will be committed automatically to this repo.
-
-**Use your preferred IDE**
-
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
-
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
-
-Follow these steps:
+### Setup Steps
 
 ```sh
-# Step 1: Clone the repository using the project's Git URL.
+# Clone the repo
 git clone <YOUR_GIT_URL>
 
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
+# Go into the folder
+cd fee-mate-pro
 
-# Step 3: Install the necessary dependencies.
+# Install packages
 npm i
 
-# Step 4: Start the development server with auto-reloading and an instant preview.
+# Start the dev server
 npm run dev
 ```
 
-**Edit a file directly in GitHub**
+## How to Use
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+1. Add your college courses
+2. Enter the fee structure for each course
+3. Add mark requirements and percentages
+4. Analyze and compare fees across courses
+5. Export reports and share with other students
 
-**Use GitHub Codespaces**
+## How to Make Changes
 
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
+**Option 1: Use Lovable (easiest)**
+- Go to [Lovable](https://lovable.dev/projects/0a9a2e9e-9d0c-4b43-b403-92a0eee70504)
+- Type what you want to change
+- It automatically saves to this repo
 
-## What technologies are used for this project?
+**Option 2: Work locally**
+- Clone the repo and use your editor
+- Push your changes
+- They'll show up in Lovable too
 
-This project is built with:
+**Option 3: Edit on GitHub**
+- Find the file you want to edit
+- Click the pencil icon
+- Commit your changes
 
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
+**Option 4: Use GitHub Codespaces**
+- Click "Code" (green button)
+- Pick "Codespaces"
+- Click "New codespace"
+- Edit and push when done
 
-## How can I deploy this project?
+## Tech Stack
 
-Simply open [Lovable](https://lovable.dev/projects/0a9a2e9e-9d0c-4b43-b403-92a0eee70504) and click on Share -> Publish.
+- Vite (fast bundler)
+- React (for the interface)
+- TypeScript (keeps things stable)
+- shadcn-ui (nice-looking components)
+- Tailwind CSS (styling)
 
-## Can I connect a custom domain to my Lovable project?
+## Deploy It
 
-Yes, you can!
+### With Lovable
+1. Open [Lovable](https://lovable.dev/projects/0a9a2e9e-9d0c-4b43-b403-92a0eee70504)
+2. Click Share → Publish
+3. Done
 
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
+### With Your Own Domain
+- Go to Project Settings → Domains
+- Add your domain
+- [Follow Lovable's guide](https://docs.lovable.dev/tips-tricks/custom-domain#step-by-step-guide)
 
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/tips-tricks/custom-domain#step-by-step-guide)
+## Questions?
+
+Create an issue or check the [Lovable docs](https://docs.lovable.dev).
